@@ -10,7 +10,7 @@
 
 <body>
   <main>
-    <h1>[Test] Vanilla JavaScript App</h1>
+    <h1>[v1] Vanilla JavaScript App</h1>
     <div class="container">
       <button id="fetchButton">Fetch Data</button>
       <div id="response" class="response-container"></div>
@@ -18,25 +18,12 @@
   </main>
 
   <script>
-    // Load environment variables (window.API_URL is set by /api/config or injected by hosting)
-    async function loadConfig() {
-      try {
-        const response = await fetch('/api/config');
-        const config = await response.json();
-        // only override if value exists
-        if (config && config.apiUrl) window.API_URL = config.apiUrl;
-      } catch (error) {
-        // Not fatal — we'll fall back to localhost
-        console.warn('Failed to load config:', error);
-      }
-    }
-
     document.getElementById('fetchButton').addEventListener('click', async () => {
       const responseDiv = document.getElementById('response');
       try {
         responseDiv.innerHTML = 'Loading...';
 
-        const base = window.API_URL || 'http://localhost:8080';
+        const base = '4.155.224.222';
         const response = await fetch(`${base}/api/test`);
         const data = await response.json();
 
