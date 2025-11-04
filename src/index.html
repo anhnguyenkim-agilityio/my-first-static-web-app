@@ -27,12 +27,12 @@
         // If a scheme is missing the browser treats it as a relative path and appends it
         // to the current origin (producing requests like https://<site>/<ip>/...).
         let base = window.API_URL || '4.155.224.222';
-        if (!/^https?:\/\//i.test(base)) {
-          // const assumedProtocol = (location.protocol === 'https:' ? 'https://' : 'http://');
-          const assumedProtocol = 'http://'
-          base = assumedProtocol + base;
-        }
-        const response = await fetch(`${base}/api/test`);
+        // if (!/^https?:\/\//i.test(base)) {
+        //   // const assumedProtocol = (location.protocol === 'https:' ? 'https://' : 'http://');
+        //   const assumedProtocol = 'http://'
+        //   base = assumedProtocol + base;
+        // }
+        const response = await fetch(`http://${base}/api/test`);
         const data = await response.json();
 
         // Display the raw JSON response (pretty-printed)
