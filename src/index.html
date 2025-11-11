@@ -32,7 +32,7 @@
         //   const assumedProtocol = 'http://'
         //   base = assumedProtocol + base;
         // }
-        const response = await fetch(`http://${base}/healthz`);
+        const response = await fetch(`https://${base}/healthz`);
         const data = await response.json();
 
         // Display the raw JSON response (pretty-printed)
