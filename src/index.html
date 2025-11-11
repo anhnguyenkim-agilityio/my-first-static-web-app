@@ -10,7 +10,7 @@
 
 <body>
   <main>
-    <h1>[v1] Vanilla JavaScript App</h1>
+    <h1>[v2] Vanilla JavaScript App</h1>
     <div class="container">
       <button id="fetchButton">Fetch Data</button>
       <div id="response" class="response-container"></div>
@@ -32,7 +32,7 @@
         //   const assumedProtocol = 'http://'
         //   base = assumedProtocol + base;
         // }
-        const response = await fetch(`http://${base}/api/test`);
+        const response = await fetch(`http://${base}/healthz`);
         const data = await response.json();
 
         // Display the raw JSON response (pretty-printed)
