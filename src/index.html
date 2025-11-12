@@ -23,15 +23,7 @@
       try {
         responseDiv.innerHTML = 'Loading...';
 
-        // Normalize base URL: user-provided values may lack a scheme (e.g. "4.155.224.222").
-        // If a scheme is missing the browser treats it as a relative path and appends it
-        // to the current origin (producing requests like https://<site>/<ip>/...).
-        let base = window.API_URL || '20.125.55.61';
-        // if (!/^https?:\/\//i.test(base)) {
-        //   // const assumedProtocol = (location.protocol === 'https:' ? 'https://' : 'http://');
-        //   const assumedProtocol = 'http://'
-        //   base = assumedProtocol + base;
-        // }
+        let base = window.API_URL || 'dev-api.anhnguyen.site';
         const response = await fetch(`https://${base}/healthz`);
         const data = await response.json();
 
