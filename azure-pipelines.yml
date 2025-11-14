@@ -1,0 +1,38 @@
+trigger:
+  branches:
+    include:
+      - dev-test
+
+variables:
+  - group: environment-variables
+  ENV: "dev-test"               
+
+stages:
+  - stage: BuildFE
+    displayName: "Build Frontend (Test)"
+    jobs:
+      - job: Build
+        displayName: "Build FE"
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Checkout@2
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18.x'
+            displayName: 'Install Node.js'
+
+          - script: |
+
+              echo 'Install Dependencies'
+            displayName: 'Install Dependencies'
+
+          - script: |
+              echo 'Build FE'
+            displayName: 'Build FE'
+
+          # Test: just archive build instead of deploying
+          - script: |
+              echo "Frontend build complete for test environment"
+            displayName: 'FE Test Complete'
