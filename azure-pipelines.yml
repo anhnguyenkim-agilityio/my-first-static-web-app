@@ -5,7 +5,7 @@ trigger:
 
 variables:
   - group: environment-variables
-  ENV: "dev-test"               
+  ENV: "dev"               
 
 stages:
   - stage: BuildFE
