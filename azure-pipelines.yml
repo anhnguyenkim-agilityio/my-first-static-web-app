@@ -1,11 +1,7 @@
 trigger:
   branches:
     include:
-      - dev-test
-
-variables:
-  - group: environment-variables
-  ENV: "dev"               
+      - main
 
 stages:
   - stage: BuildFE
@@ -16,7 +12,7 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - task: Checkout@2
+          - checkout: self
 
           - task: NodeTool@0
             inputs:
