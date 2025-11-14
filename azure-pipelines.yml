@@ -4,12 +4,16 @@ trigger:
       - main
 
 variables:
-  # Static Web App tokens cho từng environment (đặt trong Library secret)
-  AZURE_STATIC_WEB_APPS_DEV_API_TOKEN: $(AZURE_STATIC_WEB_APPS_DEV_API_TOKEN)
+  - group: env-vars
 
-  APP_LOCATION: "./src"
-  API_LOCATION: ""
-  OUTPUT_LOCATION: "."
+  - name: APP_LOCATION
+    value: "./src"
+
+  - name: API_LOCATION
+    value: ""
+
+  - name: OUTPUT_LOCATION
+    value: "."
 
 stages:
   - stage: Deploy
