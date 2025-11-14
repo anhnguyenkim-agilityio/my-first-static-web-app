@@ -3,32 +3,41 @@ trigger:
     include:
       - main
 
+variables:
+  # Static Web App tokens cho từng environment (đặt trong Library secret)
+  AZURE_STATIC_WEB_APPS_DEV_API_TOKEN: $(AZURE_STATIC_WEB_APPS_DEV_API_TOKEN)
+
+  APP_LOCATION: "./src"
+  API_LOCATION: ""
+  OUTPUT_LOCATION: "."
+
 stages:
-  - stage: BuildFE
-    displayName: "Build Frontend (Test)"
+  - stage: Deploy
+    displayName: "Deploy SWA per Environment"
     jobs:
-      - job: Build
-        displayName: "Build FE"
+      - job: Deploy
+        displayName: "Deploy Static Web App"
         pool:
           name: Default
         steps:
           - checkout: self
-
-          - task: NodeTool@0
+          
+          # Set environment-specific token based on branch
+          - script: |
+              echo "##vso[task.setvariable variable=ENV_TOKEN]$(AZURE_STATIC_WEB_APPS_DEV_API_TOKEN)"
+              # if [ "$(Build.SourceBranchName)" == "stag" ]; then
+              #   echo "##vso[task.setvariable variable=ENV_TOKEN]$(AZURE_STATIC_WEB_APPS_STAG_API_TOKEN)"
+              # elif [ "$(Build.SourceBranchName)" == "main" ]; then
+              #   echo "##vso[task.setvariable variable=ENV_TOKEN]$(AZURE_STATIC_WEB_APPS_PROD_API_TOKEN)"
+              # fi
+            displayName: "Select environment token"
+          
+          # Build & Deploy
+          - task: AzureStaticWebApp@0
+            displayName: "Build and Deploy SWA"
             inputs:
-              versionSpec: '18.x'
-            displayName: 'Install Node.js'
-
-          - script: |
-
-              echo 'Install Dependencies'
-            displayName: 'Install Dependencies'
-
-          - script: |
-              echo 'Build FE'
-            displayName: 'Build FE'
-
-          # Test: just archive build instead of deploying
-          - script: |
-              echo "Frontend build complete for test environment"
-            displayName: 'FE Test Complete'
+              azure_static_web_apps_api_token: $(ENV_TOKEN)
+              app_location: $(APP_LOCATION)
+              api_location: $(API_LOCATION)
+              output_location: $(OUTPUT_LOCATION)
+              action: 'upload'
