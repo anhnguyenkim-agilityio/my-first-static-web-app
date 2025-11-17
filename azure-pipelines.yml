@@ -9,9 +9,6 @@ variables:
   - name: APP_LOCATION
     value: "./src"
 
-  - name: API_LOCATION
-    value: ""
-
   - name: OUTPUT_LOCATION
     value: "."
 
@@ -25,7 +22,7 @@ stages:
           name: Default
         steps:
           - checkout: self
-          
+
           # Set environment-specific token based on branch
           - script: |
               echo "##vso[task.setvariable variable=ENV_TOKEN]$(AZURE_STATIC_WEB_APPS_DEV_API_TOKEN)"
@@ -35,13 +32,11 @@ stages:
               #   echo "##vso[task.setvariable variable=ENV_TOKEN]$(AZURE_STATIC_WEB_APPS_PROD_API_TOKEN)"
               # fi
             displayName: "Select environment token"
-          
+
           # Build & Deploy
           - task: AzureStaticWebApp@0
             displayName: "Build and Deploy SWA"
             inputs:
               azure_static_web_apps_api_token: $(ENV_TOKEN)
               app_location: $(APP_LOCATION)
-              api_location: $(API_LOCATION)
               output_location: $(OUTPUT_LOCATION)
-              action: 'upload'
