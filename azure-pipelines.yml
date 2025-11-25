@@ -16,12 +16,6 @@ pool:
 variables:
   - group: env-vars
 
-  - name: APP_LOCATION
-    value: "./src"
-
-  - name: OUTPUT_LOCATION
-    value: "."
-
   - name: env
     value: ''   # default fallback
 
@@ -54,7 +48,7 @@ stages:
             displayName: "Run Unit/Integration Tests"
 
   - stage: Deploy
-    displayName: "Deploy SWA per Environment"
+    displayName: "Deploy to $(env)"
     dependsOn: Test
     condition: |
       and(
@@ -89,5 +83,5 @@ stages:
                   displayName: "Build and Deploy SWA"
                   inputs:
                     azure_static_web_apps_api_token: $(ENV_TOKEN)
-                    app_location: $(APP_LOCATION)
-                    output_location: $(OUTPUT_LOCATION)
+                    app_location: "./src"
+                    output_location: "."
