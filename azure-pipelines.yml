@@ -26,13 +26,16 @@ variables:
     value: ''   # default fallback
 
   - ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
-      env: 'dev'
+    - name: env
+      value: 'dev'
 
   - ${{ if eq(variables['Build.SourceBranchName'], 'staging') }}:
-      env: 'stag'
+    - name: env
+      value: 'stag'
 
   - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
-      env: 'prod'
+    - name: env
+      value: 'prod'
 
 stages:
   - stage: Test
