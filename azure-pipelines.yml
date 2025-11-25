@@ -40,7 +40,6 @@ variables:
 stages:
   - stage: Test
     displayName: Run Tests
-    dependsOn: Build
     condition: or(
         eq(variables['Build.Reason'], 'PullRequest'),
         eq(variables['Build.SourceBranchName'], 'develop'),
