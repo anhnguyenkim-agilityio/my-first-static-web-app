@@ -17,7 +17,7 @@ variables:
   - group: env-vars
 
   - name: env
-    value: ''   # default fallback
+    value: 'dev'   # default fallback
 
   - ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
     - name: env
