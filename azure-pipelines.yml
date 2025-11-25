@@ -48,7 +48,7 @@ stages:
             displayName: "Run Unit/Integration Tests"
 
   - stage: Deploy
-    displayName: "Deploy to $(env)"
+    displayName: "Deploy Static Web App to $(env)"
     dependsOn: Test
     condition: |
       and(
@@ -58,7 +58,7 @@ stages:
       )
     jobs:
       - deployment: DeployApp
-        displayName: "Deploy to $(env)"
+        displayName: "Deploy Static Web App to $(env)"
         environment: $(env)
 
         strategy:
