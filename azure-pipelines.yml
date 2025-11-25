@@ -22,13 +22,18 @@ variables:
   - name: OUTPUT_LOCATION
     value: "."
 
-  - name:  ENV
-    value : ${{
-        eq(variables['Build.SourceBranchName'], 'develop') && 'dev' ||
-        eq(variables['Build.SourceBranchName'], 'staging') && 'stag' ||
-        eq(variables['Build.SourceBranchName'], 'main') && 'prod' ||
-        ''
-      }}
+  - name: env
+    value: ''   # default fallback
+
+  - ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+      env: 'dev'
+
+  - ${{ if eq(variables['Build.SourceBranchName'], 'staging') }}:
+      env: 'stag'
+
+  - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+      env: 'prod'
+
 stages:
   - stage: Test
     displayName: Run Tests
