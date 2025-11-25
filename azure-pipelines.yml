@@ -23,11 +23,12 @@ variables:
     value: "."
 
   - name:  ENV
-    value : |
-      ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}dev
-      ${{ if eq(variables['Build.SourceBranchName'], 'staging') }}stag
-      ${{ if eq(variables['Build.SourceBranchName'], 'main') }}prod
-
+    value : ${{
+      eq(variables['Build.SourceBranchName'], 'develop') && 'dev' ||
+      eq(variables['Build.SourceBranchName'], 'staging') && 'stag' ||
+      eq(variables['Build.SourceBranchName'], 'main') && 'prod' ||
+      ''
+    }}
 stages:
   - stage: Test
     displayName: Run Tests
