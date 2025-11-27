@@ -99,7 +99,7 @@ stages:
               echo "Deploy stage status: $STATE"
 
               PAYLOAD=$(jq -n \
-                --arg pipeline "frontendcicd" \
+                --arg pipeline "dratinifrontend" \
                 --arg state "$STATE" \
                 --arg branch "$(Build.SourceBranchName)" \
                 '{detail: {pipeline: $pipeline, state: $state, branch: $branch}}')
