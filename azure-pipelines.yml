@@ -95,11 +95,11 @@ stages:
           - bash: |
               FUNCTION_URL="https://slack-notify-func.azurewebsites.net/api/slack_notify_func?code=$(dev-slack-noti-func)"
 
-              STATE=$(System.StageAttemptStatus_Deploy)
-              [[ -z "$STATE" ]] && STATE="FAILED"
+              STATE="${AGENT_JOBSTATUS:-Failed}"
+              echo "Deploy stage status: $STATE"
 
               PAYLOAD=$(jq -n \
-                --arg pipeline "FE Pipeline" \
+                --arg pipeline "frontendcicd" \
                 --arg state "$STATE" \
                 --arg branch "$(Build.SourceBranchName)" \
                 '{detail: {pipeline: $pipeline, state: $state, branch: $branch}}')
