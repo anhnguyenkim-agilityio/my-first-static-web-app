@@ -85,3 +85,24 @@ stages:
                     azure_static_web_apps_api_token: $(ENV_TOKEN)
                     app_location: "./src"
                     output_location: "."
+
+  - stage: Notify
+    dependsOn: Deploy
+    condition: always()
+    jobs:
+      - job: CallFunction
+        steps:
+          - bash: |
+              FUNCTION_URL="https://slack-notify-func.azurewebsites.net/api/slack_notify_func?code=$(dev-slack-noti-func)"
+
+              STATE=$(System.StageAttemptStatus_Deploy)
+              [[ -z "$STATE" ]] && STATE="FAILED"
+
+              PAYLOAD=$(jq -n \
+                --arg pipeline "FE Pipeline" \
+                --arg state "$STATE" \
+                --arg branch "$(Build.SourceBranchName)" \
+                '{detail: {pipeline: $pipeline, state: $state, branch: $branch}}')
+
+              curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$FUNCTION_URL"
+            displayName: "Trigger Slack Func (success/fail)"
